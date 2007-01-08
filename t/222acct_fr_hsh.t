@@ -1,0 +1,51 @@
+use Test::More tests => 86;
+#use Test::More "no_plan";
+
+use PBS::Logs::Acct;
+
+use vars qw{@data @count};
+use lib 't';
+require acctdata;
+
+my @S_cnt = qw{1 4 7 10};
+my @E_cnt = qw{2 5 8 11};
+
+open PL, 't/acct.20050201' or die "can not open t/acct.20050201";
+my @all = <PL>;
+close PL;
+my $pl = new PBS::Logs::Acct(\@all);
+
+is($pl->type(), "ARRAY","passed array reference");
+
+&try($pl,0 .. $#data);
+
+$pl->start();
+$pl->filter_records('E');
+&try($pl,@E_cnt);
+
+$pl->start();
+$pl->filter_records('S');
+&try($pl,@S_cnt);
+
+$pl->start();
+$pl->filter_records('S','E');
+&try($pl,sort {$a <=> $b;} (@S_cnt,@E_cnt));
+
+$pl->start();
+$pl->filter_records([]);
+&try($pl,0 .. $#data);
+
+sub try {
+	my $pl = shift;
+	my ($cnt,$a) = (0,undef);
+	cmp_ok($pl->line(),'==', $cnt,			"line 0 count $cnt");
+	while ($a = $pl->get_hash()) {
+		cmp_ok($pl->line(),'==', $count[$_[$cnt]+1],"line count $cnt")
+			if $cnt < $#_;
+		my @a = @{$a}{
+	@PBS::Logs::Acct::num2keys{sort keys %PBS::Logs::Acct::num2keys}};
+		is(join(' | ',@a),$data[$_[$cnt]],	"line data $cnt");
+		$cnt++;
+	}
+	cmp_ok($pl->line(),'==', -1,			"EOF count");
+}

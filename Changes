@@ -1,0 +1,10 @@
+Revision history for Perl extension PBS::Logs.
+
+0.01  Fri Mar  4 10:17:29 2005
+	- original version; created by h2xs 1.23 with options
+		--compat-version=5.8.0 -XAn PBS::Logs
+
+0.02   Wed Jul 27 10:56:14 PDT 2005
+	- gave the test scripts more "descriptive" names
+	- changed the compat-version to 5.6
+	- have message_hash() honor some quoting of values
