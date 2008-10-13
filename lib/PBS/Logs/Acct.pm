@@ -8,16 +8,20 @@ and inherits from PBS::Logs.
 =head1 SYNOPSIS
 
 See the sections below:
+
   use PBS::Logs::Acct;
 
 The only non-inheritable function is the class level debug()
+
   PBS::Logs::Acct::debug()
 
 You must use
+
   PBS::Logs::debug()
 
 to read or set global debugging.
 However, the instance version works just fine:
+
   $pl->debug()
 
 Other than that
@@ -35,6 +39,8 @@ Can export message_hash() and message_hash_dump()
 =over
 
 =item PBS::Logs
+
+=item PBS::Logs::Event
 
 =item The PBS Pro 5.4 Administrator Guide
 
@@ -199,6 +205,7 @@ Essentially, just the inverse of %PBS::Logs::Acct::num2keys above.
 =head2 %PBS::Logs::Acct::record_type
 
 Describes the record types, which are keys to this hash array.
+
   %record_type = (
         'A'     => 'job aborted by server',
         'B'     => 'resource reservation period begin',
@@ -223,6 +230,7 @@ array reference, it (obviously) returns a hash
 where the keys are the same keys as given by %PBS::Logs::Acct::keys .
 
 The accounting log entry looks like this with respect to the keys:
+
   datetime;record_type;id;message
 
 where the message field can have several key=value pairs depending on
@@ -299,14 +307,15 @@ sub filter_records {
 
 =head1 message_hash($message_text)
 
-Parses an accounting log message and returns an associatvie array (hash)
+Parses an accounting log message and returns an associative array (hash)
 containing the key/value pairs.  And for certain fields, such as:
 Resource_List and resources_used, the value is another hash array
 containing the resource key and value.
 Can be called either as a method of an instantiated
 object, or as a class function.
 
-An example of the mesage text with resources_used dotted field:
+An example of the message text with resources_used dotted field:
+
   ...
   resources_used.cpupercent=0 resources_used.cput=00:00:00
   resources_used.mem=2880kb resources_used.ncpus=4
@@ -314,6 +323,7 @@ An example of the mesage text with resources_used dotted field:
   ...
 
 Results in a hash array of:
+
   ...
   resources_used => {
      cpupercent => 0,
@@ -392,6 +402,7 @@ or evaluation.  Can be called either as a method of an instantiated
 object, or as a class function.
 
 Example of evaluating the output:
+
   my $m = PBS::Logs::Acct::message_hash($some_message);
   my $t = PBS::Logs::Acct::message_hash_dump($m);
   my $x;

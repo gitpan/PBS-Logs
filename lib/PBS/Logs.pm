@@ -7,6 +7,7 @@ PBS::Logs - general parser for PBS log files
 =head1 SYNOPSIS
 
 See the sections below:
+
   use PBS::Logs;
 
 =head1 DESCRIPTION
@@ -17,7 +18,15 @@ None by default.
 
 =head1 SEE ALSO
 
-The PBS Pro 5.4 Administrator Guide
+=over
+
+=item The PBS Pro 5.4 Administrator Guide
+
+=item PBS::Logs::Acct
+
+=item PBS::Logs::Event
+
+=back
 
 =head1 AUTHOR
 
@@ -52,7 +61,7 @@ use Time::Local;
 
 our @ISA = qw();
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 my $debug = 0;
 
@@ -87,15 +96,18 @@ It takes only one argument which is either a filename, array reference,
 or a FILE glob reference.
 
 Pass a PBS log file name to read:
+
  my $pl = new PBS::Logs('/var/spool/PBS/server_logs/20050512');
 
 Slurp the file into an array and pass the array reference
+
  open PL, '/var/spool/PBS/server_logs/20050512' 
    || die "can not open log";
  my @pl = <PL>;
  my $pl = new PBS::Logs(\@pl);
 
 Or finally, pass a FILEHANDLE glob.  This can be useful if creating a filter.
+
  my $pl = new PBS::Logs(\*STDIN);
 
 =cut
@@ -192,7 +204,7 @@ sub line {
 
 =head1 start()
 
-Begin reading at the start of the log if not a filter.
+Begin reading at the start of the log, if not a filter.
 
 =cut
 
@@ -210,7 +222,7 @@ sub start {
 
 =head1 end()
 
-End reading of the log and close it out if not a filter.
+End reading of the log and close it out, if not a filter.
 Sets all the internal values to undef.
 
 =cut
@@ -299,6 +311,7 @@ sub getdata {
 
 Get the next entry from the log and return as an array reference
 if in an scalar context, else return a list if called otherwise.
+
  $a = $pl->get();      # returns array reference
  @a = $pl->get();      # returns array
 

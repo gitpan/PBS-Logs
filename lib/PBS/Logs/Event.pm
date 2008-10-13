@@ -8,16 +8,20 @@ and inherits from PBS::Logs.
 =head1 SYNOPSIS
 
 See the sections below:
+
   use PBS::Logs::Event;
 
 The only non-inheritable function is the class level debug()
+
   PBS::Logs::Event::debug()
 
 You must use
+
   PBS::Logs::debug()
 
 to read or set global debugging.
 However, the instance version works just fine:
+
   $pl->debug()
 
 Other than that
@@ -35,6 +39,8 @@ None by default.
 =over
 
 =item PBS::Logs
+
+=item PBS::Logs::Acct
 
 =item The PBS Pro 5.4 Administrator Guide
 
