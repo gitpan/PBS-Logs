@@ -11,3 +11,7 @@ Revision history for Perl extension PBS::Logs.
 
 0.03  Mon Oct 13 11:03:40 PDT 2008
 	- mostly document changes
+
+0.04  Tue Apr 28 16:07:16 PDT 2009
+	- added the current() method to return the current PBS "record"
+

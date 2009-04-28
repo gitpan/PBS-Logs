@@ -61,7 +61,7 @@ use Time::Local;
 
 our @ISA = qw();
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 my $debug = 0;
 
@@ -202,6 +202,24 @@ sub line {
 	$self->{'line'} > 0 ? $self->{'line'} - 1 : $self->{'line'};
 }
 
+=head1 current()
+
+Return the "current" concatenated PBS record that has been read and that
+meets the selection criterion.  Remember, though, that actuall PBS logs can
+have a record that is spread across multiple lines.
+New records begin with a date/time-stamp.
+This gives the entire record as one line.
+
+=cut
+
+sub current {
+	my $self = shift;
+	carp __PACKAGE__." : current $self (".join(',',@_).")\n"
+		if ($debug || $self->{'-debug'});
+	return undef if ! defined $self->{'current'};
+	$self->{'current'};
+}
+
 =head1 start()
 
 Begin reading at the start of the log, if not a filter.
@@ -218,6 +236,7 @@ sub start {
 	}
 	$self->{'-lastline'}	= undef;
 	$self->{'line'} = 0 if ($self->{'type'} ne 'FILTER');
+	$self->{'current'}	= undef;
 }
 
 =head1 end()
@@ -239,12 +258,13 @@ sub end {
 	$self->{'-end'}		= undef;
 	$self->{'input'}	= undef;
 	$self->{'line'}		= undef;
+	$self->{'current'}	= undef;
 	$self->{'type'}		= undef;
 }
 
 #=head1 getline()
 #
-#Get the next text line from the log returning the a string
+#Get the next text line from the log returning a string
 # (stripped of trailing \n's).
 #This method is used internally only, and should not be called directly
 #
@@ -270,6 +290,7 @@ sub getline {
 		$self->{'line'}++;
 	} else  {		# reached EOF
 		$self->{'line'} = -1;
+		$self->{'current'} = undef;
 	}
 	$l;						# return array ref
 }
@@ -296,13 +317,18 @@ sub getdata {
 		if ($l =~ /^$datetime_regex/) {
 			$self->{'-lastline'} = $l;
 			last;
-		} else {
+		} else {		# a continuation record
 			$line .= " $l";
 		}
 	}
 	$self->{'-lastline'} = undef if ! defined $l;
 
-	$a = [split(';',$line)] if defined $line;
+	if (defined $line) {
+		$a = [split(';',$line)];
+		$self->{'current'} = $line;
+	} else {
+		$self->{'current'} = undef;
+	}
 
 	$a;						# return array ref
 }
@@ -326,6 +352,7 @@ sub get {
 		if ($debug || $self->{'-debug'});
 
 	if ($self->{'line'} == -1) {	# nothing to do at EOF
+		$self->{'current'} = undef;
 		return () if (wantarray);
 		return undef;
 	}

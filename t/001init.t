@@ -23,7 +23,7 @@ ok(defined $pl, 'defined instance');
 ok(ref $pl eq $obj, 'blessed reference');
 isa_ok($pl, $obj);
 can_ok($obj,qw{debug});
-can_ok($pl,qw{debug datetime get filter_datetime input line type});
+can_ok($pl,qw{debug datetime get filter_datetime input line current type});
 
 is($pl->debug(), 0, "instance debug accessor read");
 # set instance debug

@@ -1,9 +1,9 @@
-use Test::More tests => 27;
+use Test::More tests => 41;
 #use Test::More "no_plan";
 
 use PBS::Logs::Acct;
 
-use vars qw{@data @count};
+use vars qw{@data @count @records};
 use lib 't';
 require acctdata;
 
@@ -15,10 +15,13 @@ my $pl = new PBS::Logs::Acct(\*PL);
 is($pl->type(), "FILTER","passed acct FILEHANDLE");
 
 cmp_ok($pl->line(),'==', $count[$cnt],		"line 0 count $cnt");
+ok(! defined $pl->current(), 			"line 0 current");
 while (@a = $pl->get()) {
 	last if $#a <= 0;
 	cmp_ok($pl->line(),'==', $count[$cnt+1],"line count $cnt");
 	is(join(' | ',@a),$data[$cnt],		"line data $cnt");
+	is($pl->current(),$records[$cnt],	"record data $cnt");
 	$cnt++;
 }
 cmp_ok($pl->line(),'==', -1,			"EOF count");
+ok(! defined $pl->current(), 			"EOF current");

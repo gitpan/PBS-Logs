@@ -1,9 +1,9 @@
-use Test::More tests => 98;
+use Test::More tests => 153;
 #use Test::More "no_plan";
 
 use PBS::Logs::Event;
 
-use vars qw{@data};
+use vars qw{@data @records};
 use lib 't';
 require momdata;
 
@@ -38,13 +38,16 @@ sub try {
 	my ($pl,$start,$end) = @_;
 	my ($cnt,$a) = (0,undef);
 	cmp_ok($pl->line(),'==', $cnt,			"line 0 count $cnt");
+	ok(! defined $pl->current(), 			"line 0 current");
 	while ($a = $pl->get()) {
 		cmp_ok($pl->line(),'==', $start + 1,	"line count $cnt")
 			if $start < $#data;
 		is(join(' | ',@$a),$data[$start],	"line data $cnt");
+		is($pl->current(),$records[$start],	"record data $cnt");
 		$cnt++;
 		$start++;
 	}
 	fail("excess retrieved lines") if $start > $end+1;
 	cmp_ok($pl->line(),'==', -1,			"EOF count");
+	ok(! defined $pl->current(), 			"EOF current");
 }

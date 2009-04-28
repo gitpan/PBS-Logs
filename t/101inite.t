@@ -26,7 +26,7 @@ isa_ok($pl, $obj);
 isa_ok($pl, $supobj);
 can_ok($supobj,qw{debug});
 can_ok($obj,qw{debug});
-can_ok($pl,qw{debug datetime get filter_datetime input line type});
+can_ok($pl,qw{debug datetime get filter_datetime input line current type});
 
 is($pl->debug(), 0, "instance debug accessor read");
 # set instance debug

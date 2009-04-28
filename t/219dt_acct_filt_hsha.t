@@ -1,9 +1,9 @@
-use Test::More tests => 92;
+use Test::More tests => 144;
 #use Test::More "no_plan";
 
 use PBS::Logs::Acct;
 
-use vars qw{@data @count};
+use vars qw{@data @count @records};
 use lib 't';
 require acctdata;
 
@@ -38,15 +38,18 @@ sub try {
 	my ($pl,$start,$end) = @_;
 	my ($cnt,$a) = (0,undef);
 	cmp_ok($pl->line(),'==', $count[$cnt],		"line 0 count $cnt");
+	ok(! defined $pl->current(), 			"line 0 current");
 	while ($a = $pl->get_hash()) {
 		cmp_ok($pl->line(),'==', $count[$start+1],"line count $cnt")
 			if $start < $#data;
 		my @a = @{$a}{
 	@PBS::Logs::Acct::num2keys{sort keys %PBS::Logs::Acct::num2keys}};
 		is(join(' | ',@a),$data[$start],	"line data $cnt");
+		is($pl->current(),$records[$start],	"record data $cnt");
 		$cnt++;
 		$start++;
 	}
 	fail("excess retrieved lines") if $start > $end+1;
 	cmp_ok($pl->line(),'==', -1,			"EOF count");
+	ok(! defined $pl->current(), 			"EOF current");
 }
