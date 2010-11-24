@@ -382,7 +382,7 @@ sub message_hash {
 	my $h = {};
 
 	for (@m) {
-		my ($k,$v) = split '=';
+		my ($k,$v) = m/^([^=]*)=*(.*)$/;
 		if ($k =~ /\./) {
 			my ($kk,$vv) = split('\.',$k);
 			$h->{$kk} = {}	if ! exists $h->{$kk};

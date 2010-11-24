@@ -1,4 +1,4 @@
-use Test::More tests => 163;
+use Test::More tests => 181;
 #use Test::More "no_plan";
 
 use PBS::Logs::Acct;
@@ -6,14 +6,6 @@ use PBS::Logs::Acct;
 use vars qw{@data @count @records};
 use lib 't';
 require acctdata;
-
-#
-#               |   |
-my @S_cnt = qw{1 4 7 10};
-my @E_cnt = qw{2 5 8 11};
-#
-#                  |       |
-my @SE_cnt = qw{1 2 4 5 7 8 10 11};
 
 my ($stime,$etime) = ('02/01/2005 11:06:18','02/01/2005 11:56:10');
 
@@ -32,11 +24,11 @@ $pl->filter_datetime($stime,'none');
 
 $pl->start();
 $pl->filter_records('E');
-&try($pl,@E_cnt[1,2,3]);
+&try($pl,@E_cnt[1 .. $#E_cnt]);
 
 $pl->start();
 $pl->filter_records('S');
-&try($pl,@S_cnt[1,2,3]);
+&try($pl,@S_cnt[1 .. $#S_cnt]);
 
 $pl->start();
 $pl->filter_records('S','E');
@@ -46,11 +38,11 @@ $pl->filter_datetime('none',$etime);
 
 $pl->start();
 $pl->filter_records('E');
-&try($pl,@E_cnt[0,1,2]);
+&try($pl,@E_cnt[0 .. 2]);
 
 $pl->start();
 $pl->filter_records('S');
-&try($pl,@S_cnt[0,1,2]);
+&try($pl,@S_cnt[0 .. 2]);
 
 $pl->start();
 $pl->filter_records('S','E');

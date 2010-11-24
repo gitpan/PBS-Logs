@@ -3,7 +3,7 @@ use Test::More tests => 6;
 
 use PBS::Logs::Acct qw{message_hash message_hash_dump};
 
-my $m = qq{user="gonwat		" group='mpccc' account="  mp99" jobname=n queue=' workq' ctime=1107284778 qtime=1107284778 etime=1107284778 start=1107284778 exec_host=davinci/0*4 Resource_List.mem=500mb Resource_List.ncpus=4 Resource_List.walltime=00:25:00 session=15040 end=1107284778 Exit_status=255 resources_used.cpupercent=0 resources_used.cput=00:00:00 resources_used.mem=2880kb resources_used.ncpus=4 resources_used.vmem=6848kb resources_used.walltime=00:00:00};
+my $m = qq{user="gonwat		" group='mpccc' account="  mp99" jobname=n queue=' workq' ctime=1107284778 qtime=1107284778 etime=1107284778 start=1107284778 exec_host=davinci/0*4 Resource_List.nodes=1:ppn=2 Resource_List.mem=500mb Resource_List.ncpus=4 Resource_List.walltime=00:25:00 session=15040 end=1107284778 Exit_status=255 resources_used.cpupercent=0 resources_used.cput=00:00:00 resources_used.mem=2880kb resources_used.ncpus=4 resources_used.vmem=6848kb resources_used.walltime=00:00:00};
 
 my $s = qq{{
 'account' => '  mp99',
@@ -20,6 +20,7 @@ my $s = qq{{
     {
     'mem' => '500mb',
     'ncpus' => '4',
+    'nodes' => '1:ppn=2',
     'walltime' => '00:25:00',
     },
 'resources_used' => 

@@ -46,3 +46,17 @@ Resource_List.walltime=00:10:00 session=19337 end=1107312491 Exit_status=255
 resources_used.cpupercent=0 resources_used.cput=00:00:00
 resources_used.mem=2352kb resources_used.ncpus=4 resources_used.vmem=8272kb
 resources_used.walltime=00:00:01
+10/04/2010 17:20:46;E;209367.cvrsvc09-ib;user=nonac group=nonac account=cstaff
+jobname=IOR queue=mag_serial ctime=1286238023 qtime=1286238023 etime=1286238023
+start=1286238045 owner=nonac@cvrsvc02-ib exec_host=c0935-ib/0
+Resource_List.neednodes=1:ppn=2 Resource_List.nodect=1
+Resource_List.nodes=1:ppn=2 Resource_List.walltime=00:10:00 session=13052
+end=1286238046 Exit_status=1 resources_used.cput=00:00:00
+resources_used.mem=0kb resources_used.vmem=0kb resources_used.walltime=00:00:02
+10/04/2010 17:23:24;E;209385.cvrsvc09-ib;user=nonac group=nonac account=cstaff
+jobname=IOR queue=mag_serial ctime=1286238184 qtime=1286238184 etime=1286238184
+start=1286238203 owner=nonac@cvrsvc02-ib exec_host=c0933-ib/0
+Resource_List.neednodes=1:ppn=1 Resource_List.nodect=1
+Resource_List.nodes=1:ppn=1 Resource_List.walltime=00:10:00 session=27544
+end=1286238204 Exit_status=0 resources_used.cput=00:00:00
+resources_used.mem=0kb resources_used.vmem=0kb resources_used.walltime=00:00:01

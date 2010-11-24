@@ -1,4 +1,4 @@
-use Test::More tests => 147;
+use Test::More tests => 165;
 #use Test::More "no_plan";
 
 use PBS::Logs::Acct;

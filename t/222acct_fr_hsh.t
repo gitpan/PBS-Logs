@@ -1,4 +1,4 @@
-use Test::More tests => 136;
+use Test::More tests => 160;
 #use Test::More "no_plan";
 
 use PBS::Logs::Acct;
@@ -6,9 +6,6 @@ use PBS::Logs::Acct;
 use vars qw{@data @count @records};
 use lib 't';
 require acctdata;
-
-my @S_cnt = qw{1 4 7 10};
-my @E_cnt = qw{2 5 8 11};
 
 open PL, 't/acct.20050201' or die "can not open t/acct.20050201";
 my @all = <PL>;
